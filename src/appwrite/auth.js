@@ -37,6 +37,23 @@ export class Authservice {
       throw error;
     }
   }
+
+  async getCurrentUser() {
+    try {
+      return await this.account.get();
+    } catch (error) {
+      throw error;
+    }
+    return null;
+  }
+
+  async logout() {
+    try {
+      await this.account.deleteSessions();
+    } catch (error) {
+      throw error;
+    }
+  }
 }
 const authservice = new Authservice(); //object
 
