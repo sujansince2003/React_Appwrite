@@ -1,7 +1,7 @@
 import { createSlice,PayloadAction } from "@reduxjs/toolkit";
 
 //defining types
-interface Authstate {
+export interface Authstate {
   status: boolean;
   userData: any | null;
 }
