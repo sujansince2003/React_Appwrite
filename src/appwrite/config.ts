@@ -3,6 +3,7 @@ import { Client, ID, Databases, Storage, Query } from "appwrite";
 
 // defining types
 
+
 interface createPostParams {
   title: string;
   content: string;
@@ -25,13 +26,16 @@ export class Service {
   databases;
   bucket;
 
+
   constructor() {
     this.client.setEndpoint(conf.appwriteUrl).setProject(conf.projectId);
-   
-    this.databases = new Databases(this.client);
-    this.bucket = new Storage(this.client);
-  }
 
+    this.databases = new Databases(this.client);
+ 
+    this.bucket = new Storage(this.client);
+   
+  }
+// a "slug" typically refers to a part of a URL that identifies a particular resource in a human-readable way.
   async createPost({ title, content, slug, featuredimage, status, userId }:createPostParams):Promise<any> {
     try {
       return await this.databases.createDocument(
@@ -56,12 +60,16 @@ export class Service {
       throw error;
     }
   }
+
+
+
+  // to use queries we must create indexes in database collection,in this scenario i have defined status as of the indexes so using it for query
   async getAllPost(queries = [Query.equal("status", "active")]) {
     try {
       return await this.databases.listDocuments(
         conf.databaseId,
         conf.collectionId,
-        queries
+        queries     //also can pass array directly here  eg: [Query.equal("status", "active")] we can have multiple query items inside this array
       );
     } catch (error) {
       throw error;
