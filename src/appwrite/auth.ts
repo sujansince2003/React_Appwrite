@@ -1,6 +1,7 @@
 import conf from "../conf/conf";
 import { Client, Account, ID } from "appwrite";
 
+
 // defining types
 
 interface createAccountParams {
@@ -66,8 +67,10 @@ On the other hand, initializing client inside the constructor can make the code 
   async getCurrentUser():Promise<any>  {
     try {
       return await this.account.get();
-    } catch (error) {
-      throw error;
+    } catch (error:any) {
+    console.log(error.message);
+         
+  
     }
     return null;     //null is written explictily so that if user is not logged in then it should return null
   }
