@@ -72,3 +72,10 @@ function Header() {
 }
 
 export default Header;
+
+/**
+ Key Differences
+Navigation Trigger: Link is used for declarative navigation (i.e., when the user clicks a link), while useNavigate is used for programmatic navigation (i.e., when you want to navigate in response to an event or action).
+Rendering: Link renders an anchor tag in the DOM, making it visible and clickable by the user. useNavigate does not render anything; it's a hook that provides a function to navigate.
+Use Case: Use Link for standard navigation links in your UI. Use useNavigate when you need to navigate in response to events other than link clicks, such as form submissions or button clicks or when user login navigates to home page like that..
+ */

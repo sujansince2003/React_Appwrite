@@ -1,7 +1,7 @@
 import React, { useId } from "react";
 
 /* syntax of forwardRef
- const MyComponent = forwardRef((props, ref) => (
+ const MyComponent = forwardRef(renderFunction(props, ref) => (
  <div ref={ref}>Hello, World!</div>
  ));  */
 const Input = React.forwardRef(function Input(
@@ -14,6 +14,8 @@ const Input = React.forwardRef(function Input(
       <div>
         {label && (
           <label className="inline-block mb-1 pl-1" htmlFor={id}>
+            {" "}
+            //htmlFor is used for accessibility
             {label}{" "}
           </label>
         )}
