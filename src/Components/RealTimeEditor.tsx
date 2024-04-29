@@ -9,7 +9,7 @@ function RealTimeEditor({ name, control, label, defaultValue = "" }: any) {
         {label && <label className="text-sm text-gray-600">{label}</label>}
 
         <Controller
-          name={name || "content"}
+          name={name || "content"} // The 'name' prop is used here to register the editor with React Hook Form
           control={control}
           render={({ field: { onChange } }) => (
             <Editor
@@ -45,7 +45,7 @@ function RealTimeEditor({ name, control, label, defaultValue = "" }: any) {
                 content_style:
                   "body { font-family:Helvetica,Arial,sans-serif; font-size:14px }",
               }}
-              onEditorChange={onChange}
+              onEditorChange={onChange} //The 'onChange' function provided by the Controller is used to update the form state
             />
           )}
         />
@@ -55,3 +55,26 @@ function RealTimeEditor({ name, control, label, defaultValue = "" }: any) {
 }
 
 export default RealTimeEditor;
+
+/**
+  a "controller" is a component that helps you integrate third-party input components (like date pickers, sliders, or any custom input components) with React Hook Form's form management while still benefiting from React Hook Form's features like form validation, error handling, and form state management.
+
+
+
+
+
+
+  code exp:
+   The name prop is used to uniquely identify the form field within the form context managed by React Hook Form.like we use ...register("email")  here email is name used to identify for input field of email
+
+field in render:
+the onchange is property availabe inside the field.this indicates that when something get change in this field then inform it which is basically handled by render function
+
+
+
+
+
+   control Prop
+Purpose: The control prop is used to connect the Controller component from React Hook Form with the form context. This connection is essential for the Controller to manage the state of the TinyMCE editor, including its value and validation status.
+Usage: You pass the control prop to the Controller component, which is obtained from the useForm hook in the parent component. This allows the Controller to register the TinyMCE editor with React Hook Form's form context, enabling form state management, validation, and error handling for the editor.basically passing state from this component to the hook form where it is used
+ */
