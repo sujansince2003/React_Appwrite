@@ -15,14 +15,14 @@ function Login() {
   //   defining function to handle login
 
   const handlelogin = async (data: FieldValues) => {
-    setError("");
+    setError(""); //start with clearing errors
     try {
       const session = await authservice.login(
         data as { email: string; password: string }
       );
       if (session) {
         const userData = await authservice.getCurrentUser();
-        if (userData) dispatch(Authlogin(userData));
+        if (userData) dispatch(Authlogin(userData)); //userData is
         navigate("/");
       } else {
       }
@@ -63,7 +63,7 @@ function Login() {
                 {...register("email", {
                   required: true,
                   validate: {
-                    matchPatern: (value) =>
+                    matchPattern: (value) =>
                       /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(
                         value
                       ) || "Email address must be a valid address",
