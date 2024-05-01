@@ -7,6 +7,10 @@ import Input from "./Input";
 import Button from "./Button";
 import RealTimeEditor from "./RealTimeEditor";
 import Select from "./Select";
+import SignUp from "./Signup";
+import Login from "./Login";
+import PostCard from "./PostCard";
+import Postform from "./postForm/Postform";
 
 export {
   Header,
@@ -18,4 +22,8 @@ export {
   Button,
   Select,
   RealTimeEditor,
+  SignUp,
+  Login,
+  PostCard,
+  Postform,
 };
