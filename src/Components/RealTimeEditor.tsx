@@ -77,4 +77,12 @@ the onchange is property availabe inside the field.this indicates that when some
    control Prop
 Purpose: The control prop is used to connect the Controller component from React Hook Form with the form context. This connection is essential for the Controller to manage the state of the TinyMCE editor, including its value and validation status.
 Usage: You pass the control prop to the Controller component, which is obtained from the useForm hook in the parent component. This allows the Controller to register the TinyMCE editor with React Hook Form's form context, enabling form state management, validation, and error handling for the editor.basically passing state from this component to the hook form where it is used
- */
+ 
+
+
+
+Real time editor
+When you use a real-time editor package in your application, the content you create and save using that editor is typically stored in the form of HTML, not plain text. This is because real-time editors often allow users to apply various formatting options to their text, such as making text bold, italic, changing font sizes, adding links, and more. These formatting options are represented using HTML tags and attributes.
+
+
+*/
