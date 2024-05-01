@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import service from "../appwrite/config";
 
-interface PostCardProps {
+export interface PostCardProps {
   $id: string;
   title: string;
   featuredimage: string;
