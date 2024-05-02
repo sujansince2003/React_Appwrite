@@ -33,7 +33,8 @@ On the other hand, initializing client inside the constructor can make the code 
     this.account = new Account(this.client);  //passing client instance to Account 
    
   }
-
+  
+  
   async createAccount({ email, password, name }:createAccountParams):Promise<any> {
     try {
       const userAccount = await this.account.create(
@@ -68,7 +69,7 @@ On the other hand, initializing client inside the constructor can make the code 
     try {
       return await this.account.get();
     } catch (error:any) {
-    console.log(error.message);
+      throw error;
          
   
     }

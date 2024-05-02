@@ -84,8 +84,9 @@ export class Service {
         slug,
         { title, content, featuredimage, status }
       );
-    } catch (error) {
+    } catch (error:any) {
       throw error;
+      
     }
   }
   async deletePost(slug:string) {
