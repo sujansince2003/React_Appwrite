@@ -26,7 +26,7 @@ export default function Post() {
   const deletePost = () => {
     service.deletePost(post.$id).then((deletedStatus) => {
       if (deletedStatus) {
-        service.deleteFile(post.featuredImage);
+        service.deleteFile(post.featuredimage);
         navigate("/");
       }
     });
@@ -37,7 +37,7 @@ export default function Post() {
       <Container>
         <div className="w-full flex justify-center mb-4 relative border rounded-xl p-2">
           <img
-            src={service.getFilePreview(post.featuredImage).toString()}
+            src={service.getFilePreview(post.featuredimage).toString()}
             alt={post.title}
             className="rounded-xl"
           />
