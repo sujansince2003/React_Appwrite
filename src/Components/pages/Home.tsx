@@ -1,15 +1,19 @@
 import { useState, useEffect } from "react";
 import { PostCard, Container } from "../index";
+
 import service from "../../appwrite/config";
+import { useSelector } from "react-redux";
 
 function Home() {
+  const authStatus: boolean = useSelector((state: any) => state.auth.status);
   const [posts, setPosts] = useState<any[]>([]);
   useEffect(() => {
     //   getting all posts  ::listdocuments from appwrite comes in array
-
-    service.getAllPost([]).then((posts) => {
-      if (posts) setPosts(posts.documents);
-    });
+    if (authStatus) {
+      service.getAllPost([]).then((posts) => {
+        if (posts) setPosts(posts.documents);
+      });
+    }
   }, []);
   if (posts.length === 0) {
     return (
