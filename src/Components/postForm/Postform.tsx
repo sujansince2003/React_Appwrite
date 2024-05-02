@@ -14,22 +14,25 @@ function Postform({ post }: any) {
         slug: post?.slug || "",
         content: post?.content || "",
         status: post?.status || "active",
-        featuredImage: post?.featuredImage || null,
+        featuredimage: post?.featuredimage || null,
       },
     });
 
   // userdata
-  const userData = useSelector((state: any) => state?.auth.userData);
+  // const userData = useSelector((state: any) => state?.auth.userData);
+  const { userData } = useSelector((state: any) => state.auth);
+  // console.log(userData);
+  // console.log(status);
 
   // handling post submit
   const submit = async (data: any) => {
     // for updating
     if (post) {
-      const newFile = data.image[0]
-        ? await service.uploadFile(data.image[0])
+      const newFile = data.featuredimage[0]
+        ? await service.uploadFile(data.featuredimage[0])
         : null;
       if (newFile) {
-        await service.deleteFile(post?.featuredImage);
+        await service.deleteFile(post?.featuredimage);
       }
 
       // aba naya xa vaney file upload huni vayo ani file ma values  haru aauxa like $id
@@ -44,13 +47,11 @@ function Postform({ post }: any) {
 
       // for creating new
     } else {
-      const file = data.image[0]
-        ? await service.uploadFile(data.image[0])
-        : null;
+      const file = await service.uploadFile(data.featuredimage[0]);
 
       if (file) {
         const fileId = file?.$id;
-        data.featuredImage = fileId;
+        data.featuredimage = fileId;
         const dbPost = await service.createPost({
           ...data,
           userId: userData.$id,
@@ -120,12 +121,12 @@ function Postform({ post }: any) {
           type="file"
           className="mb-4"
           accept="image/png, image/jpg, image/jpeg, image/gif"
-          {...register("featuredImage", { required: !post })}
+          {...register("featuredimage", { required: !post })}
         />
         {post && (
           <div className="w-full mb-4">
             <img
-              src={service.getFilePreview(post.featuredImage).toString()}
+              src={service.getFilePreview(post.featuredimage).toString()}
               alt={post.title}
               className="rounded-lg"
             />
@@ -141,6 +142,7 @@ function Postform({ post }: any) {
           type="submit"
           bgColor={post ? "bg-green-500" : undefined}
           className="w-full"
+          textClr={"text-black"}
         >
           {post ? "Update" : "Submit"}
         </Button>
