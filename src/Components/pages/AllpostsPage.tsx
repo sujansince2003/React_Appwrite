@@ -17,14 +17,12 @@ function AllpostsPage() {
       <Container>
         <div className="flex flex-wrap">
           {posts?.map((post) => (
-            <div>
-              <PostCard
-                key={post.$id}
-                $id={post.$id}
-                title={post.title}
-                featuredimage={post.featuredimage}
-              />
-            </div>
+            <PostCard
+              key={post.$id}
+              $id={post.$id}
+              title={post.title}
+              featuredimage={post.featuredimage}
+            />
           ))}
         </div>
       </Container>

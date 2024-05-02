@@ -17,6 +17,7 @@ function EditPost() {
       navigate("/");
     }
   }, []);
+
   return post ? (
     <div className="py-8">
       <Container>
