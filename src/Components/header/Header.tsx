@@ -50,11 +50,12 @@ function Header() {
                 item.active ? (
                   <li key={item.name}>
                     <Button
-                      btnText={item.name}
                       onClick={() => {
                         navigate(item.slug);
                       }}
-                    />
+                    >
+                      {item.name}
+                    </Button>
                   </li>
                 ) : null
               )}
