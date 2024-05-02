@@ -1,53 +1,48 @@
 import { useEffect, useState } from "react";
 import authservice from "./appwrite/auth";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { login, logout } from "./store/authSlice";
 import { Footer, Header } from "./Components";
 import { Outlet } from "react-router-dom";
 
 function App() {
-  const [isLoading, setisLoading] = useState(true);
+  const [isLoading, setisLoading] = useState(false);
   const dispatch = useDispatch();
+  const authStatus: boolean = useSelector((state: any) => state.auth.status);
 
   useEffect(() => {
     // Check if the user is logged in
-    authservice
-      .getCurrentUser()
-      .then((userData) => {
-        if (userData) {
-          // User is logged in, dispatch login action
+    if (authStatus) {
+      authservice
+        .getCurrentUser()
+        .then((userData) => {
+          if (userData) {
+            // User is logged in, dispatch login action
 
-          dispatch(login({ userData }));
-          console.log("login");
-        } else {
-          // User is not logged in, dispatch logout action
-          dispatch(logout());
-          console.log("logout");
-        }
-      })
-      .catch((error) => {
-        console.error("Failed to get current user:", error);
-        // Handle error, e.g., by showing an error message or redirecting to a login page
-      })
-      .finally(() => {
-        setisLoading(false);
-      });
+            dispatch(login({ userData }));
+          } else {
+            // User is not logged in, dispatch logout action
+            dispatch(logout());
+          }
+        })
+
+        .finally(() => {
+          setisLoading(false);
+        });
+    }
   }, []);
 
-  return (
-    <>
-      <h1 className="text-3xl font-bold underline">
-        {isLoading ? "loading" : "data has arrived"}
-        Hello world!
-      </h1>
-      {/* <Header /> */}
-      <>
-        <h1>hello</h1>
-      </>
-      <main>{/* <Outlet /> */}</main>
-      {/* <Footer /> */}
-    </>
-  );
+  return !isLoading ? (
+    <div className="min-h-screen flex flex-wrap content-between bg-gray-400">
+      <div className="w-full block">
+        <Header />
+        <main>
+          <Outlet />
+        </main>
+        <Footer />
+      </div>
+    </div>
+  ) : null;
 }
 
 export default App;
