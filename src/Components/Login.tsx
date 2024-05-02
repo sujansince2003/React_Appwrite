@@ -22,7 +22,8 @@ function Login() {
       );
       if (session) {
         const userData = await authservice.getCurrentUser();
-        if (userData) dispatch(Authlogin(userData)); //userData is
+
+        if (userData) dispatch(Authlogin({ userData })); //userData is sent to store
         navigate("/");
       } else {
       }
@@ -30,6 +31,7 @@ function Login() {
       setError(error?.message);
     }
   };
+
   return (
     <>
       <div className="flex items-center justify-center w-full">
