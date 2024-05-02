@@ -58,6 +58,13 @@ function SignUp() {
           <form onSubmit={handleSubmit(handlesignUp)} className="mt-8">
             <div className="space-y-5">
               <Input
+                label="Full Name: "
+                placeholder="Enter your full name"
+                {...register("name", {
+                  required: true,
+                })}
+              />
+              <Input
                 label="Enter your email"
                 type="email"
                 {...register("email", {
