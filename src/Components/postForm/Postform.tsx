@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 
 function Postform({ post }: any) {
+  // console.log(post);
   const navigate = useNavigate();
   const { register, handleSubmit, watch, setValue, control, getValues } =
     useForm({
@@ -15,6 +16,7 @@ function Postform({ post }: any) {
         content: post?.content || "",
         status: post?.status || "active",
         featuredimage: post?.featuredimage || null,
+        image: null,
       },
     });
 
@@ -26,11 +28,24 @@ function Postform({ post }: any) {
 
   // handling post submit
   const submit = async (data: any) => {
-    // for updating
+    // console.log(data);
     if (post) {
-      const newFile = data.featuredimage[0]
-        ? await service.uploadFile(data.featuredimage[0])
-        : null;
+      let newFile;
+
+      /**
+ if we get post as props then we are updating post,
+ we already have given default values to our 
+
+
+ */
+
+      if (data.image) {
+        //  if i dont  upload a image the data.image will be null
+        newFile = data.image[0]
+          ? await service.uploadFile(data.image[0])
+          : null;
+      }
+      // console.log(newFile);
       if (newFile) {
         await service.deleteFile(post?.featuredimage);
       }
@@ -38,7 +53,7 @@ function Postform({ post }: any) {
       // aba naya xa vaney file upload huni vayo ani file ma values  haru aauxa like $id
       const updatedPost = await service.updatePost(post?.$id, {
         ...data,
-        featuredimage: newFile ? newFile?.$id : undefined,
+        featuredimage: newFile ? newFile?.$id : post?.featuredimage,
       });
 
       if (updatedPost) {
@@ -47,7 +62,7 @@ function Postform({ post }: any) {
 
       // for creating new
     } else {
-      const file = await service.uploadFile(data.featuredimage[0]);
+      const file = await service.uploadFile(data.image[0]);
 
       if (file) {
         const fileId = file?.$id;
@@ -121,7 +136,7 @@ function Postform({ post }: any) {
           type="file"
           className="mb-4"
           accept="image/png, image/jpg, image/jpeg, image/gif"
-          {...register("featuredimage", { required: !post })}
+          {...register("image", { required: !post })}
         />
         {post && (
           <div className="w-full mb-4">
