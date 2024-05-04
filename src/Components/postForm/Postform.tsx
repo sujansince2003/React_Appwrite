@@ -16,7 +16,6 @@ function Postform({ post }: any) {
         content: post?.content || "",
         status: post?.status || "active",
         featuredimage: post?.featuredimage || null,
-        image: null,
       },
     });
 
@@ -28,21 +27,29 @@ function Postform({ post }: any) {
 
   // handling post submit
   const submit = async (data: any) => {
-    // console.log(data);
-    if (post) {
-      let newFile;
-
-      /**
+    /**
  if we get post as props then we are updating post,
- we already have given default values to our 
+ we already have given default values to our hook from data that comes from post object
+  ::
+  for Handling image update
+
+  case 1: change the image
+  first we check if we have image here named as featuredimage key inside data object we receive from react hook form.is the key in the data object that holds the FileList object such as actual file, name,,,etc
+  if we have data.featuredimage then we know that user has selected image and we run the functionality to upload image and delete previous one.
+  
+
+  case 2: update title,slug,content but keep the image unchanged
+if we dont get featureimage key inside data then uploadFile will not run which will still male newFile null and the previous image id will be used   and others update data is sent as ...data
+
 
 
  */
-
-      if (data.image) {
+    if (post) {
+      let newFile;
+      if (data.featuredimage) {
         //  if i dont  upload a image the data.image will be null
-        newFile = data.image[0]
-          ? await service.uploadFile(data.image[0])
+        newFile = data.featuredimage[0]
+          ? await service.uploadFile(data.featuredimage[0])
           : null;
       }
       // console.log(newFile);
@@ -62,8 +69,8 @@ function Postform({ post }: any) {
 
       // for creating new
     } else {
-      const file = await service.uploadFile(data.image[0]);
-
+      const file = await service.uploadFile(data.featuredimage[0]);
+      // the fileId returns some objects which also contains id of uplaoded file as $id and we assing to featuredimage and  we use this id to perform diffrent db functionality such as delete,preview etc
       if (file) {
         const fileId = file?.$id;
         data.featuredimage = fileId;
@@ -136,7 +143,7 @@ function Postform({ post }: any) {
           type="file"
           className="mb-4"
           accept="image/png, image/jpg, image/jpeg, image/gif"
-          {...register("image", { required: !post })}
+          {...register("featuredimage", { required: !post })}
         />
         {post && (
           <div className="w-full mb-4">
