@@ -5,17 +5,22 @@ import service from "../../appwrite/config";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 
-function Postform({ post }: any) {
+interface Postformprops {
+  post?: any | null;
+  slug?: string | null;
+}
+function Postform({ post, slug }: Postformprops) {
   // console.log(post);
   const navigate = useNavigate();
   const { register, handleSubmit, watch, setValue, control, getValues } =
     useForm({
       defaultValues: {
         title: post?.title || "",
-        slug: post?.slug || "",
+        slug: slug || "",
         content: post?.content || "",
         status: post?.status || "active",
         featuredimage: post?.featuredimage || null,
+        featuredImageUpload: null,
       },
     });
 
@@ -27,6 +32,7 @@ function Postform({ post }: any) {
 
   // handling post submit
   const submit = async (data: any) => {
+    // console.log(data);
     /**
  if we get post as props then we are updating post,
  we already have given default values to our hook from data that comes from post object
@@ -46,10 +52,11 @@ if we dont get featureimage key inside data then uploadFile will not run which w
  */
     if (post) {
       let newFile;
-      if (data.featuredimage) {
+      if (data.featuredImageUpload) {
+        console.log("Hello");
         //  if i dont  upload a image the data.image will be null
-        newFile = data.featuredimage[0]
-          ? await service.uploadFile(data.featuredimage[0])
+        newFile = data.image[0]
+          ? await service.uploadFile(data.featuredImageUpload[0])
           : null;
       }
       // console.log(newFile);
@@ -69,7 +76,7 @@ if we dont get featureimage key inside data then uploadFile will not run which w
 
       // for creating new
     } else {
-      const file = await service.uploadFile(data.featuredimage[0]);
+      const file = await service.uploadFile(data.featuredImageUpload[0]);
       // the fileId returns some objects which also contains id of uplaoded file as $id and we assing to featuredimage and  we use this id to perform diffrent db functionality such as delete,preview etc
       if (file) {
         const fileId = file?.$id;
@@ -143,7 +150,7 @@ if we dont get featureimage key inside data then uploadFile will not run which w
           type="file"
           className="mb-4"
           accept="image/png, image/jpg, image/jpeg, image/gif"
-          {...register("featuredimage", { required: !post })}
+          {...register("featuredImageUpload", { required: !post })}
         />
         {post && (
           <div className="w-full mb-4">
